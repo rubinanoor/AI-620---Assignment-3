@@ -147,21 +147,21 @@ context.add_or_update_expectation_suite(expectation_suite=final_suite)
 # 3. Force the physical save to the .json file
 context.save_expectation_suite(expectation_suite=final_suite, expectation_suite_name=SUITE_NAME)
 
-print(f"✅ SUCCESSFULLY SAVED {len(final_suite.expectations)} RULES TO DISK.")
+print(f" SUCCESSFULLY SAVED {len(final_suite.expectations)} RULES TO DISK.")
 
 # 4. Find where it actually went
 import glob
 actual_path = glob.glob(f"**/{SUITE_NAME}.json", recursive=True)
 if actual_path:
-    print(f"📍 FOUND IT! Your rules are actually in: {os.path.abspath(actual_path[0])}")
+    print(f" FOUND IT! Your rules are actually in: {os.path.abspath(actual_path[0])}")
     with open(actual_path[0], 'r') as f:
         content = json.load(f)
-        print(f"📊 Rules inside the file: {len(content.get('expectations', []))}")
+        print(f"Rules inside the file: {len(content.get('expectations', []))}")
 
 
 # validator.save_expectation_suite(discard_failed_expectations=False)
-# print(f"\n✅ Expectation suite '{SUITE_NAME}' saved with all rules.")
-print(f"✅ SUCCESSFULLY SAVED {len(final_suite.expectations)} RULES TO DISK.")
+# print(f"\nExpectation suite '{SUITE_NAME}' saved with all rules.")
+print(f"SUCCESSFULLY SAVED {len(final_suite.expectations)} RULES TO DISK.")
 
 run_batch_request = {
     "datasource_name": "pakwheels_datasource",
@@ -192,7 +192,7 @@ for key, run in result.run_results.items():
     print(f"  Failed                 : {failed}")
     print(f"  Success rate           : {pct:.1f}%\n")
     if failed > 0:
-        print("  ❌ Failed expectations:")
+        print("  Failed expectations:")
         for er in vr.results:
             if not er.success:
                 etype = er.expectation_config.expectation_type
@@ -201,24 +201,23 @@ for key, run in result.run_results.items():
                 print(f"     • [{col}] {etype}")
                 print(f"       Observed: {obs}")
 
-print(f"\n📂 HTML report available at your project path:")
+print(f"\nHTML report available at your project path:")
 report_path = os.path.abspath(os.path.join(GE_ROOT_DIR, "gx/uncommitted/data_docs/local_site/index.html"))
 if not os.path.exists(report_path): 
     report_path = os.path.abspath(os.path.join(GE_ROOT_DIR, "uncommitted/data_docs/local_site/index.html"))
 
-print(f"\n📂 Report: {report_path}")
+print(f"\n Report: {report_path}")
 
-# Force building the Data Docs manually
+# force building the Data Docs manually
 print("🏗️ Building Data Docs...")
 context.build_data_docs()
 
-# Find the specific index file location from the context itself
+# find the specific index file location 
 data_docs_site_info = context.get_docs_sites_urls()[0]
 report_url = data_docs_site_info['site_url']
 
-print(f"\n✅ SUCCESS! Your report is actually here:")
+print(f"\nSUCCESS! Your report is actually here:")
 print(f"{report_url}")
 
-# This will open it automatically on your Mac
 import webbrowser
 webbrowser.open(report_url)

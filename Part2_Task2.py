@@ -3,7 +3,7 @@ import os
 import joblib
 from contextlib import asynccontextmanager
 from fastapi             import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware  # allows Streamlit to call us
+from fastapi.middleware.cors import CORSMiddleware  
 from pydantic            import BaseModel, Field, field_validator
 import numpy as np
 import pandas as pd

@@ -95,7 +95,7 @@ def clean_cars_dataframe(df: pd.DataFrame, dataset_label: str) -> pd.DataFrame:
     # reset index
     df.reset_index(drop=True, inplace=True)
     final_rows = len(df)
-    print(f"\n✅ Cleaned. Rows: {initial_rows:,} → {final_rows:,} "
+    print(f"\n Cleaned. Rows: {initial_rows:,} → {final_rows:,} "
           f"(removed {initial_rows - final_rows:,})")
     return df
 
@@ -104,13 +104,13 @@ def clean_cars_dataframe(df: pd.DataFrame, dataset_label: str) -> pd.DataFrame:
 raw_pakwheels = pd.read_csv("data-a2.csv", low_memory=False)
 clean_pakwheels = clean_cars_dataframe(raw_pakwheels, "PakWheels")
 clean_pakwheels.to_csv("cleaned_pakwheels.csv", index=False)
-print("\n💾 Saved: cleaned_pakwheels.csv")
+print("\n Saved: cleaned_pakwheels.csv")
 
 # cleaning the corrupted synthetic dataset 
 raw_corrupted = pd.read_csv("corrupted_synthetic_dataset.csv", low_memory=False)
 clean_corrupted = clean_cars_dataframe(raw_corrupted, "Corrupted Synthetic")
 clean_corrupted.to_csv("cleaned_corrupted_synthetic.csv", index=False)
-print("💾 Saved: cleaned_corrupted_synthetic.csv")
+print(" Saved: cleaned_corrupted_synthetic.csv")
 
 
 def revalidate(df, suite_name, datasource_name, ge_root_dir, batch_id, asset_name):
@@ -123,12 +123,12 @@ def revalidate(df, suite_name, datasource_name, ge_root_dir, batch_id, asset_nam
     
     # Check if it's empty and try to reload if it is
     if len(suite.expectations) == 0:
-        print(f"⚠️ Warning: Context reports 0 rules for {suite_name}. Attempting deep reload...")
+        print(f"Warning: Context reports 0 rules for {suite_name}. Attempting deep reload...")
         # This re-syncs the context with the actual files on your hard drive
         context = gx.get_context(context_root_dir=ge_root_dir)
         suite = context.get_expectation_suite(suite_name)
 
-    print(f"✅ Context verified: {len(suite.expectations)} expectations found for {suite_name}")
+    print(f"Context verified: {len(suite.expectations)} expectations found for {suite_name}")
 
 
     context.add_or_update_datasource(
@@ -183,7 +183,7 @@ def revalidate(df, suite_name, datasource_name, ge_root_dir, batch_id, asset_nam
     print(f"  Success Rate       : {pct:.1f}%")
     
     if failed > 0:
-        print("\n  ❌ Remaining Issues:")
+        print("\n   Remaining Issues:")
         for res in result.results:
             if not res.success:
                 col = res.expectation_config.kwargs.get("column","—")
@@ -196,8 +196,8 @@ def revalidate(df, suite_name, datasource_name, ge_root_dir, batch_id, asset_nam
 # Run re-validation using the GE suites created in Tasks 2 and 3
 # NOTE: These suite directories must exist (run Tasks 2 & 3 first).
 
-print("\n\n🔁 Re-validating cleaned PakWheels dataset …")
-print("\n\n🔁 Re-validating cleaned PakWheels dataset …")
+print("\n\n Re-validating cleaned PakWheels dataset …")
+print("\n\n Re-validating cleaned PakWheels dataset …")
 revalidate(
     df=clean_pakwheels,
     suite_name="pakwheels_car_suite",
@@ -208,7 +208,7 @@ revalidate(
     asset_name="cleaned_pakwheels",
 )
 
-print("\n🔁 Re-validating cleaned corrupted synthetic dataset …")
+print("\n Re-validating cleaned corrupted synthetic dataset …")
 revalidate(
     df=clean_corrupted,
     suite_name="synthetic_car_suite",
